@@ -1,0 +1,7 @@
+schema: http://localhost:4444/
+
+generates:
+  src/types/graph.d.ts:
+    plugins:
+      - typescript
+      - typescript-resolvers

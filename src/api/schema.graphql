@@ -1,0 +1,121 @@
+type Query {
+  me: User
+  users: [User!]!
+  posts: [Post]!
+  post(id: String): Post!
+  getUserProfile(id: String): User!
+  userSearch(term: String!): [User!]!
+  searchPost(term: String!): [Post!]!
+  # REVIEW Do We Need it  because we get posts with profile??
+  myPosts(id: String): [Post]!
+}
+
+type Subscription {
+  DriversSubscriptions: User
+}
+
+type Mutation {
+  createUser(
+    username: String!
+    email: String!
+    firstName: String
+    lastName: String
+    avatar: String
+    bio: String
+  ): User!
+  requestLoginSecret(email: String!): String!
+  confirmSecretLogin(email: String!, key: String!): String!
+  followUnfollow(id: String!): User!
+  deleteUser(id: String!): String!
+  editProfile(
+    username: String
+    email: String
+    firstName: String
+    lastName: String
+    avatar: String
+    bio: String
+  ): User!
+  createPost(caption: String!, files: [String!]!, location: String): Post!
+  editPost(
+    postId: String!
+    caption: String
+    files: [String]
+    location: String
+  ): Post!
+  toggleLike(postId: String!): String!
+  deletePost(postId: String!): String!
+
+  createComment(text: String!, postId: String!): Comment!
+  editComment(text: String!, commentId: String!): Comment!
+  deleteComment(commentId: String!): String!
+}
+
+type User {
+  id: String
+  avatar: String
+  username: String
+  email: String
+  firstName: String
+  lastName: String
+  fullName: String
+  bio: String
+  loginSecret: String
+  post: [Post]
+  likes: [Like]
+  comments: [Comment]
+  rooms: [Room]
+  followedBy: [User]
+  following: [User]
+  SendMessege: [Message]
+  ReceiveMessage: Message
+}
+
+type Post {
+  id: String
+  location: String
+  caption: String
+  author: User
+  authorId: String
+  files: [File]
+  likes: [Like]
+  comments: [Comment]
+}
+
+type Like {
+  id: String
+  user: User
+  userId: Float
+  post: Post
+  postId: String
+}
+
+type Comment {
+  id: String
+  text: String
+  author: User
+  authorId: String
+  post: Post
+  postId: String
+}
+
+type File {
+  id: String
+  file: String
+  post: Post
+  postId: String
+}
+
+type Room {
+  id: String
+  participants: [User]
+  messeges: [Message]
+}
+
+type Message {
+  id: String
+  room: Room
+  from: User
+  to: User
+  senderId: String
+  receiverId: String
+}
