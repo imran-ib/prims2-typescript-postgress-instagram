@@ -43,6 +43,7 @@ export type Message = {
   room?: Maybe<Room>;
   from?: Maybe<User>;
   to?: Maybe<User>;
+  text?: Maybe<Scalars['String']>;
   senderId?: Maybe<Scalars['String']>;
   receiverId?: Maybe<Scalars['String']>;
 };
@@ -62,6 +63,7 @@ export type Mutation = {
   createComment: Comment;
   editComment: Comment;
   deleteComment: Scalars['String'];
+  sendMessege: Message;
 };
 
 
@@ -147,6 +149,13 @@ export type MutationDeleteCommentArgs = {
   commentId: Scalars['String'];
 };
 
+
+export type MutationSendMessegeArgs = {
+  roomId?: Maybe<Scalars['String']>;
+  text: Scalars['String'];
+  toId?: Maybe<Scalars['String']>;
+};
+
 export type Post = {
    __typename?: 'Post';
   id?: Maybe<Scalars['String']>;
@@ -168,6 +177,9 @@ export type Query = {
   getUserProfile: User;
   userSearch: Array<User>;
   searchPost: Array<Post>;
+  feeds: Array<Maybe<Post>>;
+  rooms: Array<Maybe<Room>>;
+  room: Room;
   myPosts: Array<Maybe<Post>>;
 };
 
@@ -192,6 +204,11 @@ export type QuerySearchPostArgs = {
 };
 
 
+export type QueryRoomArgs = {
+  id: Scalars['String'];
+};
+
+
 export type QueryMyPostsArgs = {
   id?: Maybe<Scalars['String']>;
 };
@@ -206,6 +223,12 @@ export type Room = {
 export type Subscription = {
    __typename?: 'Subscription';
   DriversSubscriptions?: Maybe<User>;
+  newMessage: Message;
+};
+
+
+export type SubscriptionNewMessageArgs = {
+  RoomId: Scalars['String'];
 };
 
 export type User = {
@@ -366,6 +389,7 @@ export type MessageResolvers<ContextType = any, ParentType extends ResolversPare
   room?: Resolver<Maybe<ResolversTypes['Room']>, ParentType, ContextType>,
   from?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
   to?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
+  text?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   senderId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   receiverId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
@@ -385,6 +409,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createComment?: Resolver<ResolversTypes['Comment'], ParentType, ContextType, RequireFields<MutationCreateCommentArgs, 'text' | 'postId'>>,
   editComment?: Resolver<ResolversTypes['Comment'], ParentType, ContextType, RequireFields<MutationEditCommentArgs, 'text' | 'commentId'>>,
   deleteComment?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationDeleteCommentArgs, 'commentId'>>,
+  sendMessege?: Resolver<ResolversTypes['Message'], ParentType, ContextType, RequireFields<MutationSendMessegeArgs, 'text'>>,
 };
 
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = {
@@ -407,6 +432,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getUserProfile?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryGetUserProfileArgs, never>>,
   userSearch?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserSearchArgs, 'term'>>,
   searchPost?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QuerySearchPostArgs, 'term'>>,
+  feeds?: Resolver<Array<Maybe<ResolversTypes['Post']>>, ParentType, ContextType>,
+  rooms?: Resolver<Array<Maybe<ResolversTypes['Room']>>, ParentType, ContextType>,
+  room?: Resolver<ResolversTypes['Room'], ParentType, ContextType, RequireFields<QueryRoomArgs, 'id'>>,
   myPosts?: Resolver<Array<Maybe<ResolversTypes['Post']>>, ParentType, ContextType, RequireFields<QueryMyPostsArgs, never>>,
 };
 
@@ -419,6 +447,7 @@ export type RoomResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
   DriversSubscriptions?: SubscriptionResolver<Maybe<ResolversTypes['User']>, "DriversSubscriptions", ParentType, ContextType>,
+  newMessage?: SubscriptionResolver<ResolversTypes['Message'], "newMessage", ParentType, ContextType, RequireFields<SubscriptionNewMessageArgs, 'RoomId'>>,
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {

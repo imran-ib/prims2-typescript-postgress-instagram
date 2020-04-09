@@ -11,7 +11,7 @@ generator client {
 }
 
 model User {
-  id    String  @id @default(uuid())
+  id    String  @id @default(cuid())
   avatar          String?
   username        String    @unique
   email           String    @unique
@@ -23,18 +23,18 @@ model User {
   posts           Post[]    @relation("WrittenPosts")
   likes           Like[]
   comments        Comment[]
-  rooms           Room[]
-  followedBy      User[]    @relation("UserFollows", references: [id])
-  following       User[]    @relation("UserFollows", references: [id])
-  SendMessege     Message[] @relation("SendMessege")
-  ReceiveMessage  Message?  @relation("ReceiveMessage")
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  rooms           Room[]      @relation(references: [id])
+  followedBy      User[]      @relation("UserFollows", references: [id])
+  following       User[]      @relation("UserFollows", references: [id])
+  messegesSent     Message[]  @relation("Sender")
+  messegesReceived Message[]   @relation("Receiver")
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
   
 }
 
 model Post {
-  id              String  @id @default(uuid())
+  id              String  @id @default(cuid())
   location        String?
   caption         String
   author          User    @relation("WrittenPosts", fields: [authorId], references: [id])
@@ -48,7 +48,7 @@ model Post {
 
 
 model Like {
- id    String  @id @default(uuid())
+ id    String  @id @default(cuid())
   user            User    @relation(fields: [userId], references: [id])
   userId          String
   post            Post @relation(fields: [postId], references: [id])
@@ -59,11 +59,11 @@ model Like {
 
 
 model Comment {
-   id    String  @id @default(uuid())
+   id    String  @id @default(cuid())
   text              String
   author            User     @relation(fields: [authorId], references: [id])
   authorId          String
-  post              Post @relation(fields: [postId], references: [id])
+  post              Post      @relation(fields: [postId], references: [id])
   postId            String
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -71,7 +71,7 @@ model Comment {
 
 
 model File {
-   id    String  @id @default(uuid())
+   id    String  @id @default(cuid())
   file      String
   post Post @relation(fields: [postId], references: [id])
   postId String
@@ -81,21 +81,22 @@ model File {
 
 
 model Room {
- id    String  @id @default(uuid())
+  id              String  @id @default(cuid())
   participants    User[]   @relation(references: [id])
-  messeges        Message[] @relation(references: [id])
+  messeges        Message[] @relation(references:[id])
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
 
 
 model Message {
- id    String  @id @default(uuid())
-  room            Room  
-  from            User      @relation(name:"SendMessege", fields: [senderId], references: [id])
-  to              User      @relation(name: "ReceiveMessage", fields: [receiverId], references: [id])
+  id              String  @id @default(cuid())
+  room            Room    @relation(references: [id])
+  sender          User    @relation("Sender", fields: [senderId], references: [id])
+  receiver        User    @relation(name: "Receiver", fields: [receiverId], references: [id])
   senderId        String
   receiverId      String
+  text            String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }

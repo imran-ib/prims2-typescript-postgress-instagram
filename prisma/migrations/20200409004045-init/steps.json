@@ -68,7 +68,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "uuid()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateField",
@@ -252,6 +252,31 @@
       "arity": "List"
     },
     {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "rooms"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "rooms"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
       "tag": "CreateField",
       "model": "User",
       "field": "followedBy",
@@ -346,7 +371,7 @@
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "SendMessege",
+      "field": "messegesSent",
       "type": "Message",
       "arity": "List"
     },
@@ -356,7 +381,7 @@
         "path": {
           "tag": "Field",
           "model": "User",
-          "field": "SendMessege"
+          "field": "messegesSent"
         },
         "directive": "relation"
       }
@@ -368,19 +393,19 @@
         "path": {
           "tag": "Field",
           "model": "User",
-          "field": "SendMessege"
+          "field": "messegesSent"
         },
         "directive": "relation"
       },
       "argument": "",
-      "value": "\"SendMessege\""
+      "value": "\"Sender\""
     },
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "ReceiveMessage",
+      "field": "messegesReceived",
       "type": "Message",
-      "arity": "Optional"
+      "arity": "List"
     },
     {
       "tag": "CreateDirective",
@@ -388,7 +413,7 @@
         "path": {
           "tag": "Field",
           "model": "User",
-          "field": "ReceiveMessage"
+          "field": "messegesReceived"
         },
         "directive": "relation"
       }
@@ -400,12 +425,12 @@
         "path": {
           "tag": "Field",
           "model": "User",
-          "field": "ReceiveMessage"
+          "field": "messegesReceived"
         },
         "directive": "relation"
       },
       "argument": "",
-      "value": "\"ReceiveMessage\""
+      "value": "\"Receiver\""
     },
     {
       "tag": "CreateField",
@@ -502,7 +527,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "uuid()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateField",
@@ -701,7 +726,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "uuid()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateField",
@@ -904,7 +929,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "uuid()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateField",
@@ -1114,7 +1139,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "uuid()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateField",
@@ -1271,7 +1296,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "uuid()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateField",
@@ -1432,7 +1457,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "uuid()"
+      "value": "cuid()"
     },
     {
       "tag": "CreateField",
@@ -1442,19 +1467,12 @@
       "arity": "Required"
     },
     {
-      "tag": "CreateField",
-      "model": "Message",
-      "field": "from",
-      "type": "User",
-      "arity": "Required"
-    },
-    {
       "tag": "CreateDirective",
       "location": {
         "path": {
           "tag": "Field",
           "model": "Message",
-          "field": "from"
+          "field": "room"
         },
         "directive": "relation"
       }
@@ -1466,12 +1484,30 @@
         "path": {
           "tag": "Field",
           "model": "Message",
-          "field": "from"
+          "field": "room"
         },
         "directive": "relation"
       },
-      "argument": "name",
-      "value": "\"SendMessege\""
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Message",
+      "field": "sender",
+      "type": "User",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Message",
+          "field": "sender"
+        },
+        "directive": "relation"
+      }
     },
     {
       "tag": "CreateArgument",
@@ -1480,7 +1516,21 @@
         "path": {
           "tag": "Field",
           "model": "Message",
-          "field": "from"
+          "field": "sender"
+        },
+        "directive": "relation"
+      },
+      "argument": "",
+      "value": "\"Sender\""
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Message",
+          "field": "sender"
         },
         "directive": "relation"
       },
@@ -1494,7 +1544,7 @@
         "path": {
           "tag": "Field",
           "model": "Message",
-          "field": "from"
+          "field": "sender"
         },
         "directive": "relation"
       },
@@ -1504,7 +1554,7 @@
     {
       "tag": "CreateField",
       "model": "Message",
-      "field": "to",
+      "field": "receiver",
       "type": "User",
       "arity": "Required"
     },
@@ -1514,7 +1564,7 @@
         "path": {
           "tag": "Field",
           "model": "Message",
-          "field": "to"
+          "field": "receiver"
         },
         "directive": "relation"
       }
@@ -1526,12 +1576,12 @@
         "path": {
           "tag": "Field",
           "model": "Message",
-          "field": "to"
+          "field": "receiver"
         },
         "directive": "relation"
       },
       "argument": "name",
-      "value": "\"ReceiveMessage\""
+      "value": "\"Receiver\""
     },
     {
       "tag": "CreateArgument",
@@ -1540,7 +1590,7 @@
         "path": {
           "tag": "Field",
           "model": "Message",
-          "field": "to"
+          "field": "receiver"
         },
         "directive": "relation"
       },
@@ -1554,7 +1604,7 @@
         "path": {
           "tag": "Field",
           "model": "Message",
-          "field": "to"
+          "field": "receiver"
         },
         "directive": "relation"
       },
@@ -1572,6 +1622,13 @@
       "tag": "CreateField",
       "model": "Message",
       "field": "receiverId",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Message",
+      "field": "text",
       "type": "String",
       "arity": "Required"
     },

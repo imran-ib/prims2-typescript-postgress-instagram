@@ -24,9 +24,9 @@ export const deleteUser = AuthResolver(
       await prisma.comment.deleteMany({ where: { authorId: user.id } });
       await prisma.post.deleteMany({ where: { authorId: user.id } });
       await prisma.room.deleteMany({
-        where: { participants: { some: { id: user.id } } }
+        where: { participants: { some: { id: user.id } } },
       });
-      await prisma.message.deleteMany({ where: { senderId: user.id } });
+      await prisma.message.deleteMany({ where: { id: user.id } });
 
       await prisma.user.delete({ where: { id: args.id } });
 

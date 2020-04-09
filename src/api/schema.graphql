@@ -6,12 +6,16 @@ type Query {
   getUserProfile(id: String): User!
   userSearch(term: String!): [User!]!
   searchPost(term: String!): [Post!]!
+  feeds: [Post]!
+  rooms: [Room]!
+  room(id: String!): Room!
   # REVIEW Do We Need it  because we get posts with profile??
   myPosts(id: String): [Post]!
 }
 
 type Subscription {
   DriversSubscriptions: User
+  newMessage(RoomId: String!): Message!
 }
 
 type Mutation {
@@ -48,6 +52,7 @@ type Mutation {
   createComment(text: String!, postId: String!): Comment!
   editComment(text: String!, commentId: String!): Comment!
   deleteComment(commentId: String!): String!
+  sendMessege(roomId: String, text: String!, toId: String): Message!
 }
 
 type User {
@@ -116,6 +121,7 @@ type Message {
   room: Room
   from: User
   to: User
+  text: String
   senderId: String
   receiverId: String
 }

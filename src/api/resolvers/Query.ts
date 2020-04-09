@@ -1,3 +1,6 @@
+import { room } from "./Queries/Rooms/SingleRoom";
+import { rooms } from "./Queries/Rooms/AllRooms";
+import { feeds } from "./Queries/Posts/Feeds";
 import { QueryResolvers } from "./../../types/graph.d";
 import { userSearch, searchPost } from "./Queries/Search/Search";
 import { post } from "./Queries/Posts/GetSinglePost";
@@ -11,5 +14,8 @@ export const Query: QueryResolvers = {
   getUserProfile,
   post,
   userSearch,
-  searchPost
+  searchPost,
+  feeds,
+  rooms,
+  room,
 };

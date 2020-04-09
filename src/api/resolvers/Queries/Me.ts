@@ -7,14 +7,11 @@ export const me = AuthResolver(
   async (_: any, args: any, ctx: Context, __: any): Promise<User> => {
     try {
       const user: User = ctx.request.user;
-      await prisma.user.findOne({
-        include: {
-          followedBy: true,
-          following: true,
-          likes: true
-        },
-        where: { id: user.id }
-      });
+      await prisma.user
+        .findOne({
+          where: { id: user.id },
+        })
+        .posts();
       return user;
     } catch (error) {
       throw new Error(`No User Found ${error.message}`);

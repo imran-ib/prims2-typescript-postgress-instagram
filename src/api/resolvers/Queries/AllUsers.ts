@@ -6,5 +6,7 @@ const prisma = new PrismaClient();
 
 export const users = (_parent: any, args: any, ctx: Context, info: any) => {
   // return prisma.user.deleteMany({});
-  return prisma.user.findMany({});
+  return prisma.user.findMany({
+    include: { followedBy: true, following: true },
+  });
 };

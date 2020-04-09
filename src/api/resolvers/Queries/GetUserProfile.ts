@@ -14,7 +14,8 @@ export const getUserProfile = AuthResolver(
       const { user } = ctx.request;
 
       const User: User | null = await prisma.user.findOne({
-        where: { id: args.id }
+        include: { following: true, followedBy: true },
+        where: { id: args.id },
       });
       if (!User) throw new Error(`User Not Found`);
       return User;

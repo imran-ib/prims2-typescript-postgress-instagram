@@ -1,8 +1,9 @@
+import { sendMessege } from "./Mutations/Messages/SendMessage";
 import { editPost } from "./Mutations/Posts/editPost";
 import {
   createComment,
   deleteComment,
-  editComment
+  editComment,
 } from "./Mutations/Posts/Comments/Comments";
 import { toggleLike } from "./Mutations/Posts/ToggleLike";
 import { createPost } from "./Mutations/Posts/NewPost";
@@ -28,5 +29,6 @@ export const Mutation: MutationResolvers = {
   createComment,
   deleteComment,
   editComment,
-  editPost
+  editPost,
+  sendMessege,
 };
